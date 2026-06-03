@@ -39,6 +39,8 @@ int main(int argc, char **argv)
 	if (init_coders(data, &coders) != 0)
 		return 1;
 	data->start_time = get_time();
+	data->counter = 0;
+	data->currently_serving = 0;
 	threads = malloc(sizeof(pthread_t) * data->number_of_coders);
 
 	i = 0;
@@ -53,7 +55,7 @@ int main(int argc, char **argv)
 	i = 0;
 	while (i < data->number_of_coders)
 	{
-		pthread_join(threads[i], NULL);
+		pthread_join(&threads[i], NULL);
 		i++;
 	}
 	free(threads);
@@ -62,3 +64,11 @@ int main(int argc, char **argv)
     free(data);
 	return (0);
 }
+
+
+while (my_ticket != coder->data->currently_serving)
+{
+	pthread_cond_wait(&coder->data->schedule_cond, &coder->data->dead_mutex)
+}
+routine(&coder->data->schedule_cond)
+pthread_cond_broadcast(&coder->data->schedule_cond);

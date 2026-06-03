@@ -54,6 +54,7 @@ int parse_arg(t_data *data, int argc, char **argv)
     data->is_dead = 0;
     pthread_mutex_init(&data->dead_mutex, NULL);
     pthread_mutex_init(&data->log_mutex, NULL);
+    pthread_cond_init(&data->schedule_cond, NULL);
     data->dongles = malloc(sizeof(pthread_mutex_t) * data->number_of_coders);
     if (!data->dongles)
         return 1;

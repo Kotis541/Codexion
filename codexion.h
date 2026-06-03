@@ -20,9 +20,11 @@ typedef struct s_data
   int             number_of_compiles_required;
   int             dongle_cooldown;
   int             scheduler;
-
   long            start_time;
+  long            counter;
+  long            currently_serving;
   int             is_dead;
+  pthread_cond_t  schedule_cond;
   pthread_mutex_t dead_mutex;
   pthread_mutex_t log_mutex;
   pthread_mutex_t *dongles;
@@ -44,7 +46,6 @@ long  get_time();
 int   parse_arg(t_data *data, int argc, char **argv);
 void	*routine(void *args);
 void	*monitor_routine(void *args);
-
 
 
 #endif
