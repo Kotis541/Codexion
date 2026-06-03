@@ -66,10 +66,3 @@ int parse_arg(t_data *data, int argc, char **argv)
     }
     return 0;
 }
-
-int main(int argc, char **argv)
-{
-    t_data* data = malloc(sizeof(t_data));
-    parse_arg(data, argc, argv);
-    printf("%li", data->time_to_debug);
-}

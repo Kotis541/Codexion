@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/time.h>
+#include <pthread.h>
 
 
 typedef struct s_data
@@ -37,6 +40,10 @@ typedef struct s_coder
   t_data          *data;
 } t_coder;
 
+long  get_time();
+int   parse_arg(t_data *data, int argc, char **argv);
+void	*routine(void *args);
+void	*monitor_routine(void *args);
 
 
 
