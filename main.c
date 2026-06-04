@@ -36,11 +36,13 @@ int main(int argc, char **argv)
 		return 1;
 	if (parse_arg(data, argc, argv) != 0)
 		return 1;
+	data->start_time = get_time();
 	if (init_coders(data, &coders) != 0)
 		return 1;
 	data->start_time = get_time();
 	data->counter = 0;
 	data->currently_serving = 0;
+	data->compiles = 0;
 	threads = malloc(sizeof(pthread_t) * data->number_of_coders);
 
 	i = 0;

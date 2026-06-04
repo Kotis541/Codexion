@@ -18,6 +18,7 @@ typedef struct s_data
   long            time_to_debug;
   long            time_to_refactor;
   int             number_of_compiles_required;
+  int             compiles;
   int             dongle_cooldown;
   int             scheduler;
   long            start_time;
