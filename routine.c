@@ -44,7 +44,7 @@ void	*monitor_routine(void *args)
 				coders[i].data->is_dead = 1;
 				pthread_mutex_unlock(&coders[i].data->dead_mutex);
 				pthread_mutex_lock(&coders[i].data->log_mutex);
-				printf("%d %d burned out\n", get_time() - coders[i].data->start_time, coders[i].id);
+				printf("%ld %d burned out\n", get_time() - coders[i].data->start_time, coders[i].id);
 				return (NULL);
 			}
 			i++;
@@ -58,32 +58,23 @@ void	*routine(void *args)
 	long	my_ticket;
 	coder = (t_coder *)args;
 
-	pthread_mutex_lock(&coder->data->dead_mutex);
-	my_ticket = coder->data->counter;
-	coder->data->counter++;
-	while (my_ticket != coder->data->currently_serving)
-	{
-		pthread_cond_wait(&coder->data->schedule_cond, &coder->data->dead_mutex);
-	}
-	pthread_mutex_unlock(&coder->data->dead_mutex);
-	
-
 	while (check_death(coder) == 0)
 	{
 		pthread_mutex_lock(coder->left_dongle);
 		pthread_mutex_lock(coder->right_dongle);
 		pthread_mutex_lock(&coder->data->log_mutex);
-		printf("%d %d is compiling\n", get_time() - coder->data->start_time, coder->id);
+		printf("%ld %d is compiling\n", get_time() - coder->data->start_time, coder->id);
 		pthread_mutex_unlock(&coder->data->log_mutex);
 		usleep(coder->data->time_to_compile * 1000);
 		pthread_mutex_unlock(coder->left_dongle);
 		pthread_mutex_unlock(coder->right_dongle);
 		pthread_mutex_lock(&coder->data->log_mutex);
-		printf("%d %d is debugging\n", get_time() - coder->data->time_to_debug, coder->id);
+		printf("%ld %d is debugging\n", get_time() - coder->data->start_time, coder->id);
 		pthread_mutex_unlock(&coder->data->log_mutex);
 		usleep(coder->data->time_to_debug * 1000);
 		pthread_mutex_lock(&coder->data->log_mutex);
-		printf("%d %d is refactoring\n", get_time() - coder->data->time_to_compile, coder->id);
+		printf("%ld %d is refactoring\n", get_time() - coder->data->start_time, coder->id);
+		pthread_mutex_unlock(&coder->data->log_mutex);
 		usleep(coder->data->time_to_refactor * 1000);
 	}
 	return (NULL);

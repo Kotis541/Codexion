@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 	i = 0;
 	while (i < data->number_of_coders)
 	{
-		pthread_create(threads[i], NULL, &routine, &coders[i]);
+		pthread_create(&threads[i], NULL, &routine, &coders[i]);
 		i++;
 	}
 	pthread_create(&monitor, NULL, &monitor_routine, coders);
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 	i = 0;
 	while (i < data->number_of_coders)
 	{
-		pthread_join(&threads[i], NULL);
+		pthread_join(threads[i], NULL);
 		i++;
 	}
 	free(threads);
@@ -64,11 +64,3 @@ int main(int argc, char **argv)
     free(data);
 	return (0);
 }
-
-
-while (my_ticket != coder->data->currently_serving)
-{
-	pthread_cond_wait(&coder->data->schedule_cond, &coder->data->dead_mutex)
-}
-routine(&coder->data->schedule_cond)
-pthread_cond_broadcast(&coder->data->schedule_cond);
