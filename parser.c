@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vokotera <vokotera@student.42prague.com    +#+  +:+       +#+        */
+/*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 09:47:21 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/08 09:47:21 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/10 15:37:14 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int	init_dongles(t_data *data)
 	i = 0;
 	while (i < data->number_of_coders)
 	{
-		data->dongles[i].id = i;
 		data->dongles[i].is_taken = 0;
 		data->dongles[i].cooldown_end = 0;
 		data->dongles[i].heap_size = 0;

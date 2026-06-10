@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vokotera <vokotera@student.42prague.com    +#+  +:+       +#+        */
+/*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 10:02:18 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/05 10:02:18 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/10 15:37:00 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	init_coders(t_data *data, t_coder **coders)
 		(*coders)[i].left_dongle = &data->dongles[i];
 		next_dongle = (i + 1) % data->number_of_coders;
 		(*coders)[i].right_dongle = &data->dongles[next_dongle];
-		(*coders)[i].coders_array = *coders;
 		i++;
 	}
 	return (0);

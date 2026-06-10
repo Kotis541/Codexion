@@ -6,7 +6,7 @@
 /*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 09:47:25 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/10 10:29:16 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/10 15:16:35 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static int	take_dongles(t_coder *coder, long priority)
 
 static int	coder_action(t_coder *coder)
 {
-	print_status(coder, "is compiling");
-	usleep(coder->data->time_to_compile * 1000);
 	pthread_mutex_lock(&coder->time_mutex);
 	coder->last_compile_time = get_time();
 	pthread_mutex_unlock(&coder->time_mutex);
+	print_status(coder, "is compiling");
+	usleep(coder->data->time_to_compile * 1000);
 	release_dongle(coder->left_dongle, coder->data->dongle_cooldown);
 	release_dongle(coder->right_dongle, coder->data->dongle_cooldown);
 	if (check_death(coder))

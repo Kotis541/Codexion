@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vokotera <vokotera@student.42prague.com    +#+  +:+       +#+        */
+/*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 09:47:09 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/08 09:47:09 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/10 12:23:27 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
-# include <pthread.h>
 
 typedef struct s_dongle_req
 {
@@ -29,7 +28,6 @@ typedef struct s_dongle_req
 
 typedef struct s_dongle
 {
-	int					id;
 	int					is_taken;
 	long				cooldown_end;
 	pthread_mutex_t		lock;
@@ -46,12 +44,9 @@ typedef struct s_data
 	long			time_to_debug;
 	long			time_to_refactor;
 	int				number_of_compiles_required;
-	int				compiles;
 	int				dongle_cooldown;
 	int				scheduler;
 	long			start_time;
-	int				counter;
-	int				currently_serving;
 	int				is_dead;
 	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	log_mutex;
@@ -63,7 +58,6 @@ typedef struct s_coder
 	int				id;
 	int				compiles_done;
 	long			last_compile_time;
-	struct s_coder	*coders_array;
 	t_dongle		*left_dongle;
 	t_dongle		*right_dongle;
 	pthread_mutex_t	time_mutex;
