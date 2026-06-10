@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vokotera <vokotera@student.42prague.com    +#+  +:+       +#+        */
+/*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 09:47:18 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/08 09:47:18 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:05:05 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	*monitor_routine(void *args)
 	while (1)
 	{
 		i = -1;
-		all_compiled = 1; 
+		all_compiled = 1;
 		while (++i < coders->data->number_of_coders)
 		{
 			if (check_burnout(&coders[i], &all_compiled))
