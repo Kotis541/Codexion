@@ -95,6 +95,8 @@ void	*routine(void *args)
 		return (single_coder(coder));
 	if (coder->id % 2 != 0)
 		usleep(10000);
+	else
+		usleep(coder->id * 1000);
 	while (!check_death(coder))
 	{
 		if (routine_loop(coder))

@@ -31,19 +31,22 @@ static void	swap_req(t_dongle_req *a, t_dongle_req *b)
 void	push_to_heap(t_dongle *dongle, int coder_id, long priority)
 {
 	int				i;
-	int				parent;
+	int				p;
+	t_dongle_req	*d;
 
 	i = dongle->heap_size;
-	dongle->heap_data[i].coder_id = coder_id;
-	dongle->heap_data[i].priority = priority;
+	d = dongle->heap_data;
+	d[i].coder_id = coder_id;
+	d[i].priority = priority;
 	dongle->heap_size++;
 	while (i != 0)
 	{
-		parent = (i - 1) / 2;
-		if (dongle->heap_data[parent].priority > dongle->heap_data[i].priority)
+		p = (i - 1) / 2;
+		if (d[p].priority > d[i].priority
+			|| (d[p].priority == d[i].priority && d[i].coder_id > d[p].coder_id))
 		{
-			swap_req(&dongle->heap_data[parent], &dongle->heap_data[i]);
-			i = parent;
+			swap_req(&d[p], &d[i]);
+			i = p;
 		}
 		else
 			break ;
@@ -52,25 +55,27 @@ void	push_to_heap(t_dongle *dongle, int coder_id, long priority)
 
 static void	bubble_down(t_dongle *dongle, int i)
 {
-	int				smallest;
-	int				left;
-	int				right;
+	int				s;
+	int				l;
+	int				r;
+	t_dongle_req	*d;
 
+	d = dongle->heap_data;
 	while (1)
 	{
-		left = 2 * i + 1;
-		right = 2 * i + 2;
-		smallest = i;
-		if (left < dongle->heap_size && dongle->heap_data[left].priority
-			< dongle->heap_data[smallest].priority)
-			smallest = left;
-		if (right < dongle->heap_size && dongle->heap_data[right].priority
-			< dongle->heap_data[smallest].priority)
-			smallest = right;
-		if (smallest == i)
+		l = 2 * i + 1;
+		r = 2 * i + 2;
+		s = i;
+		if (l < dongle->heap_size && (d[l].priority < d[s].priority
+				|| (d[l].priority == d[s].priority && d[l].coder_id > d[s].coder_id)))
+			s = l;
+		if (r < dongle->heap_size && (d[r].priority < d[s].priority
+				|| (d[r].priority == d[s].priority && d[r].coder_id > d[s].coder_id)))
+			s = r;
+		if (s == i)
 			break ;
-		swap_req(&dongle->heap_data[i], &dongle->heap_data[smallest]);
-		i = smallest;
+		swap_req(&d[i], &d[s]);
+		i = s;
 	}
 }
 
