@@ -24,12 +24,13 @@ static int	wait_for_turn(t_coder *coder, t_dongle *dongle)
 			return (0);
 		}
 		current_time = get_time();
-		if (peek_heap_coder_id(dongle) == coder->id && !dongle->is_taken)
+		if (dongle->heap_size > 0 && dongle->heap_data[0].coder_id == coder->id
+			&& !dongle->is_taken)
 		{
 			if (current_time >= dongle->cooldown_end)
 				return (1);
 			pthread_mutex_unlock(&dongle->lock);
-			usleep((dongle->cooldown_end - current_time) * 1000);
+			ft_usleep(dongle->cooldown_end - current_time, coder);
 			pthread_mutex_lock(&dongle->lock);
 			continue ;
 		}

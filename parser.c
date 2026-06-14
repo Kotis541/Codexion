@@ -66,6 +66,7 @@ static int	init_dongles(t_data *data)
 		data->dongles[i].is_taken = 0;
 		data->dongles[i].cooldown_end = 0;
 		data->dongles[i].heap_size = 0;
+		data->dongles[i].scheduler = data->scheduler;
 		data->dongles[i].heap_data = malloc(sizeof(t_dongle_req)
 				* data->number_of_coders);
 		if (!data->dongles[i].heap_data)

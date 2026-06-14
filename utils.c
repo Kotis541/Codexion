@@ -11,13 +11,27 @@
 /* ************************************************************************** */
 
 #include "codexion.h"
+#include <time.h>
 
 long	get_time(void)
 {
-	struct timeval	tv;
+	struct timespec	ts;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ((ts.tv_sec * 1000) + (ts.tv_nsec / 1000000));
+}
+
+void	ft_usleep(long time_in_ms, t_coder *coder)
+{
+	long	start;
+
+	start = get_time();
+	while ((get_time() - start) < time_in_ms)
+	{
+		if (check_death(coder))
+			break ;
+		usleep(500);
+	}
 }
 
 int	check_death(t_coder *coder)

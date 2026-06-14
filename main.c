@@ -23,7 +23,7 @@ int	init_coders(t_data *data, t_coder **coders)
 	i = 0;
 	while (i < data->number_of_coders)
 	{
-		(*coders)[i].id = i;
+		(*coders)[i].id = i + 1;
 		(*coders)[i].data = data;
 		(*coders)[i].compiles_done = 0;
 		(*coders)[i].last_compile_time = data->start_time;
@@ -44,9 +44,11 @@ static int	start_threads(t_data *data, t_coder *coders, pthread_t **threads,
 	*threads = malloc(sizeof(pthread_t) * data->number_of_coders);
 	if (!(*threads))
 		return (1);
+	data->start_time = get_time();
 	i = 0;
 	while (i < data->number_of_coders)
 	{
+		coders[i].last_compile_time = data->start_time;
 		pthread_create(&(*threads)[i], NULL, &routine, &coders[i]);
 		i++;
 	}

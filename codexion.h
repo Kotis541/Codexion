@@ -34,6 +34,7 @@ typedef struct s_dongle
 	pthread_cond_t		cond;
 	t_dongle_req		*heap_data;
 	int					heap_size;
+	int					scheduler;
 }	t_dongle;
 
 typedef struct s_data
@@ -65,6 +66,7 @@ typedef struct s_coder
 }	t_coder;
 
 long	get_time(void);
+void	ft_usleep(long time_in_ms, t_coder *coder);
 int		parse_arg(t_data *data, int argc, char **argv);
 void	*routine(void *args);
 void	*monitor_routine(void *args);
@@ -75,7 +77,6 @@ void	free_system(t_data *data, t_coder *coders, pthread_t *threads);
 void	print_status(t_coder *coder, char *status);
 int		check_death(t_coder *coder);
 void	push_to_heap(t_dongle *dongle, int coder_id, long priority);
-int		peek_heap_coder_id(t_dongle *dongle);
 void	pop_from_heap(t_dongle *dongle);
 
 #endif

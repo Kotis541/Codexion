@@ -12,11 +12,17 @@
 
 #include "codexion.h"
 
-int	peek_heap_coder_id(t_dongle *dongle)
+static int	is_higher(t_dongle *d, t_dongle_req *a, t_dongle_req *b)
 {
-	if (dongle->heap_size > 0)
-		return (dongle->heap_data[0].coder_id);
-	return (-1);
+	if (a->priority < b->priority)
+		return (1);
+	if (a->priority == b->priority)
+	{
+		if (d->scheduler == 1)
+			return (a->coder_id > b->coder_id);
+		return (a->coder_id < b->coder_id);
+	}
+	return (0);
 }
 
 static void	swap_req(t_dongle_req *a, t_dongle_req *b)
@@ -42,8 +48,7 @@ void	push_to_heap(t_dongle *dongle, int coder_id, long priority)
 	while (i != 0)
 	{
 		p = (i - 1) / 2;
-		if (d[p].priority > d[i].priority
-			|| (d[p].priority == d[i].priority && d[i].coder_id > d[p].coder_id))
+		if (is_higher(dongle, &d[i], &d[p]))
 		{
 			swap_req(&d[p], &d[i]);
 			i = p;
@@ -66,11 +71,9 @@ static void	bubble_down(t_dongle *dongle, int i)
 		l = 2 * i + 1;
 		r = 2 * i + 2;
 		s = i;
-		if (l < dongle->heap_size && (d[l].priority < d[s].priority
-				|| (d[l].priority == d[s].priority && d[l].coder_id > d[s].coder_id)))
+		if (l < dongle->heap_size && is_higher(dongle, &d[l], &d[s]))
 			s = l;
-		if (r < dongle->heap_size && (d[r].priority < d[s].priority
-				|| (d[r].priority == d[s].priority && d[r].coder_id > d[s].coder_id)))
+		if (r < dongle->heap_size && is_higher(dongle, &d[r], &d[s]))
 			s = r;
 		if (s == i)
 			break ;

@@ -14,24 +14,12 @@
 
 static int	take_dongles(t_coder *coder, long priority)
 {
-	if (coder->id % 2 == 0)
-	{
-		if (!request_dongle(coder, coder->left_dongle, priority))
-			return (0);
-		print_status(coder, "has taken a dongle");
-		if (!request_dongle(coder, coder->right_dongle, priority))
-			return (release_dongle(coder->left_dongle, 0), 0);
-		print_status(coder, "has taken a dongle");
-	}
-	else
-	{
-		if (!request_dongle(coder, coder->right_dongle, priority))
-			return (0);
-		print_status(coder, "has taken a dongle");
-		if (!request_dongle(coder, coder->left_dongle, priority))
-			return (release_dongle(coder->right_dongle, 0), 0);
-		print_status(coder, "has taken a dongle");
-	}
+	if (!request_dongle(coder, coder->left_dongle, priority))
+		return (0);
+	print_status(coder, "has taken a dongle");
+	if (!request_dongle(coder, coder->right_dongle, priority))
+		return (release_dongle(coder->left_dongle, 0), 0);
+	print_status(coder, "has taken a dongle");
 	return (1);
 }
 
@@ -41,17 +29,17 @@ static int	coder_action(t_coder *coder)
 	coder->last_compile_time = get_time();
 	pthread_mutex_unlock(&coder->time_mutex);
 	print_status(coder, "is compiling");
-	usleep(coder->data->time_to_compile * 1000);
+	ft_usleep(coder->data->time_to_compile, coder);
 	release_dongle(coder->left_dongle, coder->data->dongle_cooldown);
 	release_dongle(coder->right_dongle, coder->data->dongle_cooldown);
 	if (check_death(coder))
 		return (1);
 	print_status(coder, "is debugging");
-	usleep(coder->data->time_to_debug * 1000);
+	ft_usleep(coder->data->time_to_debug, coder);
 	if (check_death(coder))
 		return (1);
 	print_status(coder, "is refactoring");
-	usleep(coder->data->time_to_refactor * 1000);
+	ft_usleep(coder->data->time_to_refactor, coder);
 	return (0);
 }
 
@@ -60,7 +48,7 @@ static void	*single_coder(t_coder *coder)
 	pthread_mutex_lock(&coder->left_dongle->lock);
 	print_status(coder, "has taken a dongle");
 	while (!check_death(coder))
-		usleep(1000);
+		ft_usleep(1, coder);
 	pthread_mutex_unlock(&coder->left_dongle->lock);
 	return (NULL);
 }
@@ -82,7 +70,6 @@ static int	routine_loop(t_coder *coder)
 	pthread_mutex_lock(&coder->time_mutex);
 	coder->compiles_done++;
 	pthread_mutex_unlock(&coder->time_mutex);
-	usleep(1000);
 	return (0);
 }
 
@@ -93,10 +80,8 @@ void	*routine(void *args)
 	coder = (t_coder *)args;
 	if (coder->data->number_of_coders == 1)
 		return (single_coder(coder));
-	if (coder->id % 2 != 0)
-		usleep(10000);
-	else
-		usleep(coder->id * 1000);
+	if (coder->id % 2 == 0)
+		ft_usleep(1, coder);
 	while (!check_death(coder))
 	{
 		if (routine_loop(coder))
