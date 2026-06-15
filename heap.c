@@ -6,22 +6,18 @@
 /*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 09:47:13 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/10 15:34:52 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/15 13:55:12 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static int	is_higher(t_dongle *d, t_dongle_req *a, t_dongle_req *b)
+static int	is_higher(t_dongle_req *a, t_dongle_req *b)
 {
 	if (a->priority < b->priority)
 		return (1);
 	if (a->priority == b->priority)
-	{
-		if (d->scheduler == 1)
-			return (a->coder_id > b->coder_id);
 		return (a->coder_id < b->coder_id);
-	}
 	return (0);
 }
 
@@ -48,7 +44,7 @@ void	push_to_heap(t_dongle *dongle, int coder_id, long priority)
 	while (i != 0)
 	{
 		p = (i - 1) / 2;
-		if (is_higher(dongle, &d[i], &d[p]))
+		if (is_higher(&d[i], &d[p]))
 		{
 			swap_req(&d[p], &d[i]);
 			i = p;
@@ -71,9 +67,9 @@ static void	bubble_down(t_dongle *dongle, int i)
 		l = 2 * i + 1;
 		r = 2 * i + 2;
 		s = i;
-		if (l < dongle->heap_size && is_higher(dongle, &d[l], &d[s]))
+		if (l < dongle->heap_size && is_higher(&d[l], &d[s]))
 			s = l;
-		if (r < dongle->heap_size && is_higher(dongle, &d[r], &d[s]))
+		if (r < dongle->heap_size && is_higher(&d[r], &d[s]))
 			s = r;
 		if (s == i)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 09:47:21 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/10 15:37:14 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/15 13:22:49 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	check_arg_format(int argc, char **argv)
 		{
 			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
 			{
-				printf("ERROR: You can add just numbers!\n");
+				printf("ERROR: Check your arguments!\n");
 				return (1);
 			}
 			j++;
@@ -93,6 +93,12 @@ int	parse_arg(t_data *data, int argc, char **argv)
 	data->time_to_debug = atoi(argv[4]);
 	data->time_to_refactor = atoi(argv[5]);
 	data->number_of_compiles_required = atoi(argv[6]);
+	if (data->number_of_compiles_required == 0 ||
+		data->number_of_coders == 0)
+	{
+		printf("ERROR: Check your arguments!\n");
+		return (1);
+	}
 	data->dongle_cooldown = atoi(argv[7]);
 	data->scheduler = (strcmp(argv[8], "edf") == 0);
 	pthread_mutex_init(&data->dead_mutex, NULL);

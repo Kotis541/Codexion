@@ -6,7 +6,7 @@
 /*   By: vokotera <vokotera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 09:47:25 by vokotera          #+#    #+#             */
-/*   Updated: 2026/06/10 15:16:35 by vokotera         ###   ########.fr       */
+/*   Updated: 2026/06/15 13:55:12 by vokotera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,21 @@
 
 static int	take_dongles(t_coder *coder, long priority)
 {
-	if (!request_dongle(coder, coder->left_dongle, priority))
+	t_dongle	*first;
+	t_dongle	*second;
+
+	first = coder->left_dongle;
+	second = coder->right_dongle;
+	if (coder->id % 2 != 0)
+	{
+		first = coder->right_dongle;
+		second = coder->left_dongle;
+	}
+	if (!request_dongle(coder, first, priority))
 		return (0);
 	print_status(coder, "has taken a dongle");
-	if (!request_dongle(coder, coder->right_dongle, priority))
-		return (release_dongle(coder->left_dongle, 0), 0);
+	if (!request_dongle(coder, second, priority))
+		return (release_dongle(first, 0), 0);
 	print_status(coder, "has taken a dongle");
 	return (1);
 }

@@ -1,10 +1,10 @@
 NAME=codexion
-SRCS = heap.c main.c monitor.c parser.c routine.c scheduler.c utils.c
+SRCS = heap.c main.c monitor.c parser.c routine.c scheduler.c utils.c free.c
 CC=cc
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) -lpthread
+	$(CC) $(OBJS) -o $(NAME) -pthread
 
 %.o: %.c
 	$(CC) -Wall -Werror -Wextra -c $< -o $@
